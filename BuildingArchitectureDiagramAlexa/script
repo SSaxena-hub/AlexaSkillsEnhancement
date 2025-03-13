@@ -1,0 +1,124 @@
+#print("Hello, World!")
+
+#<py-script>
+import matplotlib.pyplot as plt
+from matplotlib.patches import FancyBboxPatch
+import matplotlib.patches as mpatches
+import base64 
+import io
+import execjs
+#from IPython.display import display, HTML
+# Create figure and axis
+fig, ax = plt.subplots(figsize=(14, 8))
+
+# Define system components and their positions in a structured architecture layout
+components = {
+    "User": (1, 5),
+    "Alexa Skill Service": (3, 5),
+    "API Gateway": (5, 5),
+    "Authentication Service": (5, 6.5),
+    "Recipe Management Service": (7, 6.5),
+    "Pantry Inventory Service": (7, 5),
+    "Shopping List Service": (7, 3),
+    "AI Recommendation Service": (9, 6),
+    "Notification Service": (9, 4),
+    "Grocery Integration Service": (9, 2),
+    "Database": (7, 1)
+}
+
+# Define component colors
+component_colors = {
+    "User": "lightblue",
+    "API Gateway": "lightblue",
+    "Alexa Skill Service": "lightblue",
+    "Authentication Service": "lightblue",
+    "Recipe Management Service": "lightblue",
+    "Pantry Inventory Service": "lightblue",
+    "Shopping List Service": "lightblue",
+    "AI Recommendation Service": "lightblue",
+    "Notification Service": "lightblue",
+    "Grocery Integration Service": "lightblue",
+    "Database": "lightblue",
+}
+
+# Draw system components as properly aligned rectangles
+for name, (x, y) in components.items():
+    ax.add_patch(FancyBboxPatch((x-0.75, y-0.5), 1.5, 1, boxstyle="round,pad=0.1", edgecolor="black", facecolor=component_colors[name]))
+    ax.text(x, y, name, fontsize=8, ha='center', va='center', fontweight="bold")
+
+# Define connections between components in a structured manner
+connections = [
+    ("User", "Alexa Skill Service"),
+    ("Alexa Skill Service", "API Gateway"),
+    ("API Gateway", "Recipe Management Service"),
+    ("API Gateway", "Pantry Inventory Service"),
+    ("API Gateway", "Shopping List Service"),
+    ("API Gateway", "AI Recommendation Service"),
+    ("API Gateway", "Notification Service"),
+    ("API Gateway", "Grocery Integration Service"),
+    ("Recipe Management Service", "Database"),
+    ("Pantry Inventory Service", "Database"),
+    ("Shopping List Service", "Database"),
+    ("Grocery Integration Service", "Database"),
+    ("Authentication Service", "API Gateway")
+]
+
+
+# Draw arrows to represent data flow with proper alignment from the edges
+for start, end in connections:
+    start_pos = components[start]
+    end_pos = components[end]
+
+    dx = end_pos[0] - start_pos[0]
+    dy = end_pos[1] - start_pos[1]
+    
+    # Adjust arrow positions to emerge from the edges of rectangles instead of crossing them
+    ax.annotate("", xy=(end_pos[0]-0.5 if dx < 0 else end_pos[0]+0.5, end_pos[1]), 
+                     xytext=(start_pos[0]+0.5 if dx > 0 else start_pos[0]-0.5, start_pos[1]), 
+                     arrowprops=dict(arrowstyle="->", color="black", lw=0.5))
+
+# Add legend for component categories
+#legend_patches = [
+    #mpatches.Patch(color="lightgray", label="User & Database"),
+    #mpatches.Patch(color="lightblue", label="API & Alexa Services"),
+   # mpatches.Patch(color="lightgreen", label="Core Processing Services"),
+  #  mpatches.Patch(color="lightsalmon", label="AI & External Integrations"),
+ #   mpatches.Patch(color="lightcoral", label="Authentication Service")
+#]
+
+#ax.legend(handles=legend_patches, loc="upper right")
+
+# Formatting
+ax.set_xlim(0, 11)
+ax.set_ylim(2, 7)
+ax.set_xticks([])
+ax.set_yticks([])
+ax.set_frame_on(False)
+ax.set_title("Scalable Microservices Architecture for AI-Powered Alexa Shopping List", fontsize=12, fontweight="bold")
+
+#plt.show()
+
+# Convert plot to an image in base64 format
+buf = io.BytesIO()
+fig.savefig(buf, format="png", bbox_inches="tight")
+buf.seek(0)
+img_base64 = base64.b64encode(buf.read()).decode("utf-8")
+
+# Inject the image into the HTML
+img_html = f'<img src="data:image/png;base64,{img_base64}" />'
+
+# Save to an HTML file
+with open("output.html", "w") as f:
+    f.write(f"<html><body><h1>Generated Image</h1>{img_html}</body></html>")
+
+# Save the diagram
+final_professional_architecture_diagram_path = "C:/Users/shris/OneDrive/Documents/Python/BuildingArchitectureDiagramAlexa/final_professional_architecture_diagram.png"
+plt.savefig(final_professional_architecture_diagram_path, format="png", bbox_inches="tight")
+plt.close()
+
+# Provide the download link
+final_professional_architecture_diagram_path
+#</py-script>
+
+#</body>
+#</html>
